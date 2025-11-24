@@ -3,16 +3,12 @@ import { collection, addDoc, getDocs, query, orderBy } from "firebase/firestore"
 
 export default async function mostrarJuego() {
 
-    // ---------------------------
-    // IMPORTAR CSS
-    // ---------------------------
+   
     const link = document.createElement("link");
     link.href = "./style.css";
     document.head.appendChild(link);
 
-    // ---------------------------
-    // CREAR UI DEL JUEGO
-    // ---------------------------
+    
     const container = document.createElement("div");
     container.id = "gameContainer";
 
@@ -50,26 +46,20 @@ export default async function mostrarJuego() {
     const difSelect = document.getElementById("dificultad");
     const scoreList = document.getElementById("scoreList");
 
-    // ---------------------------
-    // VARIABLES
-    // ---------------------------
+    
     let digimons = [];
     let actual = null;
     let score = 0;
     let jugando = false;
     let timer = null;
 
-    // ---------------------------
-    // CARGAR API
-    // ---------------------------
+    
     async function cargarAPI() {
         const res = await fetch("https://digimon-api.vercel.app/api/digimon");
         digimons = await res.json();
     }
 
-    // ---------------------------
-    // MOSTRAR DIGIMON ALEATORIO
-    // ---------------------------
+    
     function nuevoDigimon() {
         jugando = true;
         input.value = "";
@@ -86,9 +76,7 @@ export default async function mostrarJuego() {
         iniciarTimer();
     }
 
-    // ---------------------------
-    // APLICAR DIFICULTAD
-    // ---------------------------
+    
     function aplicarDificultad() {
         const d = difSelect.value;
         const nombre = actual.name;
@@ -100,9 +88,7 @@ export default async function mostrarJuego() {
         }
     }
 
-    // ---------------------------
-    // TIMER SEGÚN DIFICULTAD
-    // ---------------------------
+   
     function iniciarTimer() {
         const d = difSelect.value;
 
@@ -121,9 +107,7 @@ export default async function mostrarJuego() {
         }
     }
 
-    // ---------------------------
-    // VALIDAR RESPUESTA
-    // ---------------------------
+    
     function validar() {
         if (!jugando) return;
 
@@ -144,9 +128,7 @@ export default async function mostrarJuego() {
         }
     }
 
-    // ---------------------------
-    // GUARDAR SCORE EN FIREBASE
-    // ---------------------------
+    
     async function guardarScore() {
         await addDoc(collection(db, "scoresDigimon"), {
             puntos: score,
@@ -157,9 +139,7 @@ export default async function mostrarJuego() {
         cargarScores();
     }
 
-    // ---------------------------
-    // CARGAR SCORES ORDENADOS
-    // ---------------------------
+    
     async function cargarScores() {
         scoreList.innerHTML = "";
 
@@ -179,18 +159,14 @@ export default async function mostrarJuego() {
         });
     }
 
-    // ---------------------------
-    // EVENTOS
-    // ---------------------------
+    
     btnEnviar.onclick = validar;
     btnNuevo.onclick = nuevoDigimon;
     input.addEventListener("keydown", e => {
         if (e.key === "Enter") validar();
     });
 
-    // ---------------------------
-    // INICIO
-    // ---------------------------
+    
     await cargarAPI();
     cargarScores();
     nuevoDigimon();

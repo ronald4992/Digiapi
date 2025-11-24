@@ -64,9 +64,7 @@ function crearBuscador() {
 
 
 
-/* ---------------------------------------------------
-   VISTA DETALLADA DE UN DIGIMON
----------------------------------------------------- */
+
 function mostrarDetalle(digi) {
     const app = document.getElementById("app");
 
